@@ -31,18 +31,6 @@ public class Flower extends SceneObject {
 	
 		// make the stem of the flower
 
-		// vertices for a wxh square with origin at the end
-		// 
-		//  (-w/2, h)     (w/2, h)		
-		//       2-----------3
-		//       | \         |
-		//       |   \       |
-		//       |     \     |
-		//       |       \   |
-		//       |         \ |
-		//       0-----*-----1
-		//  (-w/2, 0)     (w/2, 0)	
-		
 		//@formatter:off
 		vertices = new Vector4f[] {
 			new Vector4f(-WIDTH / 2,           0, 0, 1),
@@ -51,6 +39,7 @@ public class Flower extends SceneObject {
 			new Vector4f( WIDTH / 2, HEIGHT, 0, 1),
 		};
 		//@formatter:on
+
 		vertexBuffer = GLBuffers.createBuffer(vertices);
 		
 	    indices = new int[] {
@@ -59,6 +48,11 @@ public class Flower extends SceneObject {
 		};
 		    
 		indexBuffer = GLBuffers.createIndexBuffer(indices);
+
+		// ✅ ADD THIS (flower head)
+		FlowerHead head = new FlowerHead(nPetals, new Vector3f(1.0f, 1.0f, 0.0f));
+		head.setParent(this);
+		head.getMatrix().translate(0.0f, HEIGHT, 0.0f);
 	}
 	
 	public void drawSelf(Matrix4f mvpMatrix) {
