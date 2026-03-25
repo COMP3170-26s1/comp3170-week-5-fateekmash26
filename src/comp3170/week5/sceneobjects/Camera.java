@@ -33,16 +33,26 @@ public class Camera extends SceneObject {
 	
 	public void update(InputManager input, float deltaTime) {
 
+		// zoom controls
 		if (input.isKeyDown(GLFW_KEY_UP)) {
-			zoom -= 10.0f * deltaTime;   // zoom in
+			zoom -= 10.0f * deltaTime;
 			if (zoom < 1.0f) zoom = 1.0f;
 		}
 			
 		if (input.isKeyDown(GLFW_KEY_DOWN)) {
-			zoom += 10.0f * deltaTime;   // zoom out
+			zoom += 10.0f * deltaTime;
 		}
 
-		// update projection matrix after zoom change
+		// left/right movement
+		if (input.isKeyDown(GLFW_KEY_LEFT)) {
+			this.getMatrix().translate(-10.0f * deltaTime, 0.0f, 0.0f);
+		}
+
+		if (input.isKeyDown(GLFW_KEY_RIGHT)) {
+			this.getMatrix().translate(10.0f * deltaTime, 0.0f, 0.0f);
+		}
+
+		// update projection after zoom change
 		projectionMatrix = new Matrix4f().ortho(-zoom, zoom, -zoom, zoom, -1.0f, 1.0f);
 	}
 }
