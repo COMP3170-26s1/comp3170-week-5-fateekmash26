@@ -1,5 +1,7 @@
 package comp3170.week5;
 
+import java.util.ArrayList;
+
 import org.joml.Vector4f;
 import comp3170.InputManager;
 import comp3170.SceneObject;
@@ -8,6 +10,7 @@ import comp3170.week5.sceneobjects.*;
 
 public class Scene extends SceneObject {
 	private Camera camera;
+	private ArrayList<Flower> flowers = new ArrayList<Flower>();
 	
 	public Scene() {
 		camera = new Camera();
@@ -23,13 +26,14 @@ public class Scene extends SceneObject {
 		Flower flower = new Flower(20);
 		flower.setParent(this);	
 		flower.getMatrix().translate(position.x,position.y,0.0f);
+		flowers.add(flower);
 	}
 
 	public void update(InputManager input, float dt) {
-		
 		camera.update(input, dt);
-		
-		// TODO: Update the flowers when animating them. (TASK 5)
+
+		for (Flower flower : flowers) {
+			flower.update(dt);
+		}
 	}
-	
 }

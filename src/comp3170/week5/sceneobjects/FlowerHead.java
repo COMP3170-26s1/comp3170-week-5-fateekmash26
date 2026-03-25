@@ -54,7 +54,12 @@ public class FlowerHead extends SceneObject {
 	}
 
 	public void update(float dt) {
-		// TODO: Make the flower head rotate. (TASK 5)
+		float time = (float) System.currentTimeMillis() / 1000.0f;
+		float scale = 1.0f + 0.2f * (float)Math.sin(time * 2.0f);
+
+		this.getMatrix().identity();
+		this.getMatrix().translate(0.0f, 1.0f, 0.0f);
+		this.getMatrix().scale(scale);
 	}
 
 	public void drawSelf(Matrix4f mvpMatrix) {

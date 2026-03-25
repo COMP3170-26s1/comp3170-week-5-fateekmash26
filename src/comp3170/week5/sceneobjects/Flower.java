@@ -19,26 +19,24 @@ public class Flower extends SceneObject {
 	
 	private final float HEIGHT = 1.0f;
 	private final float WIDTH = 0.1f;
-	private Vector3f colour = new Vector3f(0f, 0.5f, 0f); // Dark Green
+	private Vector3f colour = new Vector3f(0f, 0.5f, 0f);
 
 	private Vector4f[] vertices;
 	private int vertexBuffer;
 	private int[] indices;
 	private int indexBuffer;
+	
+	private FlowerHead head;
 
 	public Flower(int nPetals) {
 		shader = ShaderLibrary.instance.compileShader(VERTEX_SHADER, FRAGMENT_SHADER);		
 	
-		// make the stem of the flower
-
-		//@formatter:off
 		vertices = new Vector4f[] {
 			new Vector4f(-WIDTH / 2,           0, 0, 1),
 			new Vector4f( WIDTH / 2,           0, 0, 1),
 			new Vector4f(-WIDTH / 2, HEIGHT, 0, 1),
 			new Vector4f( WIDTH / 2, HEIGHT, 0, 1),
 		};
-		//@formatter:on
 
 		vertexBuffer = GLBuffers.createBuffer(vertices);
 		
@@ -49,8 +47,7 @@ public class Flower extends SceneObject {
 		    
 		indexBuffer = GLBuffers.createIndexBuffer(indices);
 
-		// ✅ ADD THIS (flower head)
-		FlowerHead head = new FlowerHead(nPetals, new Vector3f(1.0f, 1.0f, 0.0f));
+		head = new FlowerHead(nPetals, new Vector3f(1.0f, 1.0f, 0.0f));
 		head.setParent(this);
 		head.getMatrix().translate(0.0f, HEIGHT, 0.0f);
 	}
@@ -66,6 +63,6 @@ public class Flower extends SceneObject {
 	}
 	
 	public void update(float dt) {
-		// TODO: make the flower sway. (TASK 5)
+		head.update(dt);
 	}
 }
