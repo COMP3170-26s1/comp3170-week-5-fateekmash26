@@ -5,6 +5,7 @@ import static org.lwjgl.opengl.GL41.*;
 
 import org.joml.Matrix4f;
 import org.joml.Vector2i;
+import org.joml.Vector4f;
 
 import comp3170.OpenGLException;
 import comp3170.IWindowListener;
@@ -51,10 +52,16 @@ public class Week5 implements IWindowListener {
 		float deltaTime = (time - oldTime) / 1000f;
 		oldTime = time;		
 		if (input.wasMouseClicked()) {
-			// TODO: Get the mouse position into NDC, and then into world space. (TASK 2)
 			input.getCursorPos(position);
 
-			// TODO: Add a new flower at the mouse position. (TASK 3)
+			float xNDC = (2.0f * position.x) / width - 1.0f;
+			float yNDC = 1.0f - (2.0f * position.y) / height;
+
+			Vector4f mousePosition = new Vector4f(xNDC, yNDC, 0.0f, 1.0f);
+			Matrix4f inverseMVP = new Matrix4f(mvpMatrix).invert();
+			mousePosition.mul(inverseMVP);
+
+			scene.createFlower(mousePosition);
 		}
 		
 		input.clear();
