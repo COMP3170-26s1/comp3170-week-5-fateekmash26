@@ -9,16 +9,17 @@ import comp3170.InputManager;
 
 public class Camera extends SceneObject {
 
-	private float zoom = 20.0f; // You'll need this when setting up your projection matrix...
+	private float zoom = 20.0f;
 	private Matrix4f projectionMatrix = new Matrix4f();
 	private Matrix4f viewMatrix = new Matrix4f();
 	
 	public Camera() {
-		
+		projectionMatrix = new Matrix4f().ortho(-zoom, zoom, -zoom, zoom, -1.0f, 1.0f);
 	}
 	
 	public void resize(int w, int h) {
-		//TODO: Change the projection matrix when the window is resized. (TASK 2)
+		float aspect = (float) w / (float) h;
+		projectionMatrix = new Matrix4f().ortho(-zoom * aspect, zoom * aspect, -zoom, zoom, -1.0f, 1.0f);
 	}
 	
 	public Matrix4f GetViewMatrix(Matrix4f dest) {
@@ -27,11 +28,8 @@ public class Camera extends SceneObject {
 	}
 	
 	public Matrix4f GetProjectionMatrix(Matrix4f dest) {
-		return projectionMatrix.invert(dest);
+		return projectionMatrix.get(dest);
 	}
-	
-// TODO: Make the camera zoom in-and-out based on user input. (TASK 4)
-// You'll need to move some code around!
 	
 	public void update(InputManager input, float deltaTime) {
 		if (input.isKeyDown(GLFW_KEY_UP)) {
